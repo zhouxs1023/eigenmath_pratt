@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>symbol.c</title>
+</head>
+<body>
+<tt><b><i>//&nbsp;The&nbsp;symbol&nbsp;table&nbsp;is&nbsp;a&nbsp;simple&nbsp;array&nbsp;of&nbsp;struct&nbsp;U.</i></b></tt><br>
+<tt></tt><br>
+<tt>#include&nbsp;"defs.h"</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;put&nbsp;symbol&nbsp;at&nbsp;index&nbsp;n</i></b></tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="std_symbol">std_symbol</a>(const&nbsp;char&nbsp;*s,&nbsp;int&nbsp;n)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;*p;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;symtab&nbsp;+&nbsp;n;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;u.printname&nbsp;=&nbsp;(char&nbsp;*)s;</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;symbol&nbsp;lookup,&nbsp;create&nbsp;symbol&nbsp;if&nbsp;need&nbsp;be</i></b></tt><br>
+<tt></tt><br>
+<tt>U&nbsp;*</tt><br>
+<tt><a name="usr_symbol">usr_symbol</a>(const&nbsp;char&nbsp;*s)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;i;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;*p;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;<a href="defs.h.html#NSYM">NSYM</a>;&nbsp;i++)&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(symtab[i].u.printname&nbsp;==&nbsp;0)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(strcmp(s,&nbsp;symtab[i].u.printname)&nbsp;==&nbsp;0)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;symtab&nbsp;+&nbsp;i;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(i&nbsp;==&nbsp;<a href="defs.h.html#NSYM">NSYM</a>)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("symbol&nbsp;table&nbsp;overflow");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;symtab&nbsp;+&nbsp;i;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;u.printname&nbsp;=&nbsp;strdup(s);</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;p;</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;get&nbsp;the&nbsp;symbol's&nbsp;printname</i></b></tt><br>
+<tt></tt><br>
+<tt>char&nbsp;*</tt><br>
+<tt><a name="get_printname">get_printname</a>(U&nbsp;*p)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(p-&gt;k&nbsp;!=&nbsp;SYM)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("symbol&nbsp;error");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;p-&gt;u.printname;</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;clears&nbsp;the&nbsp;arglist&nbsp;too</i></b></tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="set_binding">set_binding</a>(U&nbsp;*p,&nbsp;U&nbsp;*q)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(p-&gt;k&nbsp;!=&nbsp;SYM)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("symbol&nbsp;error");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;binding[p&nbsp;-&nbsp;symtab]&nbsp;=&nbsp;q;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arglist[p&nbsp;-&nbsp;symtab]&nbsp;=&nbsp;<a href="defs.h.html#symbol">symbol</a>(NIL);</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt>U&nbsp;*</tt><br>
+<tt><a name="get_binding">get_binding</a>(U&nbsp;*p)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(p-&gt;k&nbsp;!=&nbsp;SYM)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("symbol&nbsp;error");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;binding[p&nbsp;-&nbsp;symtab];</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="set_binding_and_arglist">set_binding_and_arglist</a>(U&nbsp;*p,&nbsp;U&nbsp;*q,&nbsp;U&nbsp;*r)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(p-&gt;k&nbsp;!=&nbsp;SYM)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("symbol&nbsp;error");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;binding[p&nbsp;-&nbsp;symtab]&nbsp;=&nbsp;q;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arglist[p&nbsp;-&nbsp;symtab]&nbsp;=&nbsp;r;</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt>U&nbsp;*</tt><br>
+<tt><a name="get_arglist">get_arglist</a>(U&nbsp;*p)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(p-&gt;k&nbsp;!=&nbsp;SYM)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("symbol&nbsp;error");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;arglist[p&nbsp;-&nbsp;symtab];</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;get&nbsp;symbol's&nbsp;number&nbsp;from&nbsp;ptr</i></b></tt><br>
+<tt></tt><br>
+<tt>int</tt><br>
+<tt><a name="symnum">symnum</a>(U&nbsp;*p)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(p-&gt;k&nbsp;!=&nbsp;SYM)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("symbol&nbsp;error");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;(int)&nbsp;(p&nbsp;-&nbsp;symtab);</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;push&nbsp;indexed&nbsp;symbol</i></b></tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="push_symbol">push_symbol</a>(int&nbsp;k)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="stack.c.html#push">push</a>(symtab&nbsp;+&nbsp;k);</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="clear_symbols">clear_symbols</a>(void)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;i;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;<a href="defs.h.html#NSYM">NSYM</a>;&nbsp;i++)&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;binding[i]&nbsp;=&nbsp;symtab&nbsp;+&nbsp;i;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arglist[i]&nbsp;=&nbsp;<a href="defs.h.html#symbol">symbol</a>(NIL);</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</tt><br>
+<tt>}</tt><br>
+</body></html>

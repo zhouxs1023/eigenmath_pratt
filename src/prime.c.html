@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>prime.c</title>
+</head>
+<body>
+<tt><b><i>//-----------------------------------------------------------------------------</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Look&nbsp;up&nbsp;the&nbsp;nth&nbsp;prime</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;on&nbsp;stack&nbsp;(0&nbsp;&lt;&nbsp;n&nbsp;&lt;&nbsp;10001)</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Output:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nth&nbsp;prime&nbsp;on&nbsp;stack</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//-----------------------------------------------------------------------------</i></b></tt><br>
+<tt></tt><br>
+<tt>#include&nbsp;"defs.h"</tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="eval_prime">eval_prime</a>(void)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="stack.c.html#push">push</a>(<a href="defs.h.html#cadr">cadr</a>(p1));</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="eval.c.html#eval">eval</a>();</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="prime.c.html#prime">prime</a>();</tt><br>
+<tt>}</tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="prime">prime</a>(void)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;n;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;=&nbsp;<a href="bignum.c.html#pop_integer">pop_integer</a>();</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(n&nbsp;&lt;&nbsp;1&nbsp;||&nbsp;n&nbsp;&gt;&nbsp;<a href="defs.h.html#MAXPRIMETAB">MAXPRIMETAB</a>)</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("prime:&nbsp;Argument&nbsp;out&nbsp;of&nbsp;range.");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;=&nbsp;primetab[n&nbsp;-&nbsp;1];</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="bignum.c.html#push_integer">push_integer</a>(n);</tt><br>
+<tt>}</tt><br>
+</body></html>

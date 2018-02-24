@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>define.c</title>
+</head>
+<body>
+<tt><b><i>//&nbsp;Store&nbsp;a&nbsp;function&nbsp;definition</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;Example:</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f(x,y)=x^y</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;For&nbsp;this&nbsp;definition,&nbsp;p1&nbsp;points&nbsp;to&nbsp;the&nbsp;following&nbsp;structure.</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p1</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;______&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______&nbsp;</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;</i>|<i>CONS&nbsp;&nbsp;</i>|<i>-&gt;</i>|<i>CONS&nbsp;&nbsp;</i>|<i>---------------------&gt;</i>|<i>CONS&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>______</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;______&nbsp;&nbsp;&nbsp;&nbsp;______&nbsp;&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;______&nbsp;&nbsp;&nbsp;&nbsp;______</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;</i>|<i>SETQ&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;</i>|<i>CONS&nbsp;&nbsp;</i>|<i>-&gt;</i>|<i>CONS&nbsp;&nbsp;</i>|<i>-&gt;</i>|<i>CONS&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;</i>|<i>CONS&nbsp;&nbsp;</i>|<i>-&gt;</i>|<i>CONS&nbsp;&nbsp;</i>|<i>-&gt;</i>|<i>CONS&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;___v__&nbsp;&nbsp;&nbsp;&nbsp;___v__</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>SYM&nbsp;f&nbsp;</i>|<i>&nbsp;&nbsp;</i>|<i>SYM&nbsp;x&nbsp;</i>|<i>&nbsp;&nbsp;</i>|<i>SYM&nbsp;y&nbsp;</i>|<i>&nbsp;&nbsp;</i>|<i>POWER&nbsp;</i>|<i>&nbsp;&nbsp;</i>|<i>SYM&nbsp;x&nbsp;</i>|<i>&nbsp;&nbsp;</i>|<i>SYM&nbsp;y&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i>&nbsp;&nbsp;</i>|<i>______</i>|<i></i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;We&nbsp;have</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;caadr(p1)&nbsp;points&nbsp;to&nbsp;f</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cdadr(p1)&nbsp;points&nbsp;to&nbsp;the&nbsp;list&nbsp;(x&nbsp;y)</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;caddr(p1)&nbsp;points&nbsp;to&nbsp;(power&nbsp;x&nbsp;y)</i></b></tt><br>
+<tt></tt><br>
+<tt>#include&nbsp;"defs.h"</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;F&nbsp;p3&nbsp;<b><i>//&nbsp;F&nbsp;points&nbsp;to&nbsp;the&nbsp;function&nbsp;name</i></b></tt><br>
+<tt>#define&nbsp;A&nbsp;p4&nbsp;<b><i>//&nbsp;A&nbsp;points&nbsp;to&nbsp;the&nbsp;argument&nbsp;list</i></b></tt><br>
+<tt>#define&nbsp;B&nbsp;p5&nbsp;<b><i>//&nbsp;B&nbsp;points&nbsp;to&nbsp;the&nbsp;function&nbsp;body</i></b></tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="define_user_function">define_user_function</a>(void)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F&nbsp;=&nbsp;<a href="defs.h.html#caadr">caadr</a>(p1);</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;=&nbsp;<a href="defs.h.html#cdadr">cdadr</a>(p1);</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B&nbsp;=&nbsp;<a href="defs.h.html#caddr">caddr</a>(p1);</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(!<a href="defs.h.html#issymbol">issymbol</a>(F))</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="run.c.html#stop">stop</a>("function&nbsp;name?");</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;evaluate&nbsp;function&nbsp;body&nbsp;(maybe)</i></b></tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(<a href="defs.h.html#car">car</a>(B)&nbsp;==&nbsp;<a href="defs.h.html#symbol">symbol</a>(EVAL))&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="stack.c.html#push">push</a>(<a href="defs.h.html#cadr">cadr</a>(B));</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="eval.c.html#eval">eval</a>();</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B&nbsp;=&nbsp;<a href="stack.c.html#pop">pop</a>();</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="symbol.c.html#set_binding_and_arglist">set_binding_and_arglist</a>(F,&nbsp;B,&nbsp;A);</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;return&nbsp;value&nbsp;is&nbsp;nil</i></b></tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="symbol.c.html#push_symbol">push_symbol</a>(NIL);</tt><br>
+<tt>}</tt><br>
+</body></html>

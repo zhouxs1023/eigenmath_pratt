@@ -1,0 +1,346 @@
+<html>
+<head>
+<title>defs.h</title>
+</head>
+<body>
+<tt>#define&nbsp;<a name="SELFTEST">SELFTEST</a>&nbsp;1</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;size&nbsp;of&nbsp;the&nbsp;symbol&nbsp;table</i></b></tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="NSYM">NSYM</a>&nbsp;1000</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;Symbolic&nbsp;expressions&nbsp;are&nbsp;built&nbsp;by&nbsp;connecting&nbsp;U&nbsp;structs.</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;For&nbsp;example,&nbsp;(a&nbsp;b&nbsp;+&nbsp;c)&nbsp;is&nbsp;built&nbsp;like&nbsp;this:</i></b></tt><br>
+<tt><b><i>//</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_______&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_______&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_______</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>CONS&nbsp;&nbsp;&nbsp;</i>|<i>---&gt;</i>|<i>CONS&nbsp;&nbsp;&nbsp;</i>|<i>-----------------------------&gt;</i>|<i>CONS&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___v___&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___v___&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_______&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_______&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___v___</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>ADD&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>CONS&nbsp;&nbsp;&nbsp;</i>|<i>---&gt;</i>|<i>CONS&nbsp;&nbsp;&nbsp;</i>|<i>---&gt;</i>|<i>CONS&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>SYM&nbsp;c&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___v___&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___v___&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___v___</i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>MUL&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>SYM&nbsp;a&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>SYM&nbsp;b&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i></i></b></tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i>&nbsp;&nbsp;&nbsp;&nbsp;</i>|<i>_______</i>|<i></i></b></tt><br>
+<tt></tt><br>
+<tt>typedef&nbsp;struct&nbsp;U&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;union&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;U&nbsp;*<a href="defs.h.html#car">car</a>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;pointing&nbsp;down</i></b></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;U&nbsp;*<a href="defs.h.html#cdr">cdr</a>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;pointing&nbsp;right</i></b></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<a href="cons.c.html#cons">cons</a>;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;*printname;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;*str;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;tensor&nbsp;*tensor;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned&nbsp;int&nbsp;*a,&nbsp;*b;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;rational&nbsp;number&nbsp;a&nbsp;over&nbsp;b</i></b></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;q;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double&nbsp;d;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;u;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsigned&nbsp;char&nbsp;k,&nbsp;tag;</tt><br>
+<tt>}&nbsp;U;</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;the&nbsp;following&nbsp;enum&nbsp;is&nbsp;for&nbsp;struct&nbsp;U,&nbsp;member&nbsp;k</i></b></tt><br>
+<tt></tt><br>
+<tt>enum&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONS,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUM,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DOUBLE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TENSOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYM</tt><br>
+<tt>};</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;the&nbsp;following&nbsp;enum&nbsp;is&nbsp;for&nbsp;indexing&nbsp;the&nbsp;symbol&nbsp;table</i></b></tt><br>
+<tt></tt><br>
+<tt>enum&nbsp;{</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;standard&nbsp;functions&nbsp;first,&nbsp;then&nbsp;nil,&nbsp;then&nbsp;everything&nbsp;else</i></b></tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ABS,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ADD,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ADJ,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARCCOS,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARCCOSH,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARCSIN,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARCSINH,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARCTAN,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARCTANH,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARG,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATOMIZE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BESSELJ,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BESSELY,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BINDING,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BINOMIAL,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CEILING,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHECK,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHOOSE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CIRCEXP,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLOCK,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COEFF,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COFACTOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONDENSE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONJ,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTRACT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COS,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COSH,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DECOMP,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEGREE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DENOMINATOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DERIVATIVE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DET,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIM,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIRAC,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIVISORS,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DO,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DOT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRAW,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DSOLVE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EIGEN,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EIGENVAL,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EIGENVEC,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ERF,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ERFC,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EVAL,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXP,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPAND,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPCOS,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPSIN,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FACTOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FACTORIAL,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FACTORPOLY,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FILTER,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLOATF,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLOOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GAMMA,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GCD,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HERMITE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HILBERT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMAG,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INDEX,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INNER,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTEGRAL,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INV,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INVG,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ISINTEGER,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ISPRIME,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAGUERRE,</tt><br>
+<tt><b><i>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAPLACE,</i></b></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LCM,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEADING,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEGENDRE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOG,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MAG,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MOD,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MULTIPLY,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NROOTS,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUMBER,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUMERATOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OPERATOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTER,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POLAR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POWER,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRIME,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRINT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRODUCT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QUOTE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QUOTIENT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RANK,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RATIONALIZE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REAL,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YYRECT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROOTS,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SETQ,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SGN,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIMPLIFY,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIN,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SINH,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SQRT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STOP,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBST,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUM,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAN,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TANH,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAYLOR,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEST,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TESTEQ,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TESTGE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TESTGT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TESTLE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TESTLT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRANSPOSE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNIT,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZERO,</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NIL,&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;nil&nbsp;goes&nbsp;here,&nbsp;after&nbsp;standard&nbsp;functions</i></b></tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AUTOEXPAND,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BAKE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LAST,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRACE,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TTY,</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YYE,</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DRAWX,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;special&nbsp;purpose&nbsp;internal&nbsp;symbols</i></b></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;METAA,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;METAB,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;METAX,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SECRETX,</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PI,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_A,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_B,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_C,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_D,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_I,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_J,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_N,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_R,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_S,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_T,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_X,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_Y,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL_Z,</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C1,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C2,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C3,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C4,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C5,</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C6,</tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USR_SYMBOLS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;this&nbsp;must&nbsp;be&nbsp;last</i></b></tt><br>
+<tt>};</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="E">E</a>&nbsp;YYE</tt><br>
+<tt></tt><br>
+<tt><b><i>//&nbsp;TOS&nbsp;cannot&nbsp;be&nbsp;arbitrarily&nbsp;large&nbsp;because&nbsp;the&nbsp;OS&nbsp;seg&nbsp;faults&nbsp;on&nbsp;deep&nbsp;recursion.</i></b></tt><br>
+<tt><b><i>//&nbsp;For&nbsp;example,&nbsp;a&nbsp;circular&nbsp;evaluation&nbsp;like&nbsp;x=x+1&nbsp;can&nbsp;cause&nbsp;a&nbsp;seg&nbsp;fault.</i></b></tt><br>
+<tt><b><i>//&nbsp;At&nbsp;this&nbsp;setting&nbsp;(100,000)&nbsp;the&nbsp;evaluation&nbsp;stack&nbsp;overruns&nbsp;before&nbsp;seg&nbsp;fault.</i></b></tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="TOS">TOS</a>&nbsp;100000</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="BUF">BUF</a>&nbsp;10000</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="MAX_PROGRAM_SIZE">MAX_PROGRAM_SIZE</a>&nbsp;100001</tt><br>
+<tt>#define&nbsp;<a name="MAXPRIMETAB">MAXPRIMETAB</a>&nbsp;10000</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="_USE_MATH_DEFINES">_USE_MATH_DEFINES</a>&nbsp;<b><i>//&nbsp;for&nbsp;MS&nbsp;C++</i></b></tt><br>
+<tt></tt><br>
+<tt>#include&nbsp;&lt;stdio.h&gt;</tt><br>
+<tt>#include&nbsp;&lt;stdlib.h&gt;</tt><br>
+<tt>#include&nbsp;&lt;ctype.h&gt;</tt><br>
+<tt>#include&nbsp;&lt;fcntl.h&gt;</tt><br>
+<tt>#include&nbsp;&lt;string.h&gt;</tt><br>
+<tt>#include&nbsp;&lt;setjmp.h&gt;</tt><br>
+<tt>#include&nbsp;&lt;math.h&gt;</tt><br>
+<tt>#include&nbsp;&lt;errno.h&gt;</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="MAXDIM">MAXDIM</a>&nbsp;24</tt><br>
+<tt></tt><br>
+<tt>typedef&nbsp;struct&nbsp;tensor&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;ndim;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;dim[<a href="defs.h.html#MAXDIM">MAXDIM</a>];</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;nelem;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;*elem[1];</tt><br>
+<tt>}&nbsp;T;</tt><br>
+<tt></tt><br>
+<tt>struct&nbsp;<a href="display.c.html#display">display</a>&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;h,&nbsp;w,&nbsp;n;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;c,&nbsp;x,&nbsp;y;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;a[1];&nbsp;<b><i>//&nbsp;a&nbsp;for&nbsp;array</i></b></tt><br>
+<tt>};</tt><br>
+<tt></tt><br>
+<tt>struct&nbsp;text_metric&nbsp;{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;ascent,&nbsp;descent,&nbsp;width;</tt><br>
+<tt>};</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="symbol">symbol</a>(x)&nbsp;(symtab&nbsp;+&nbsp;(x))</tt><br>
+<tt>#define&nbsp;<a name="iscons">iscons</a>(p)&nbsp;((p)-&gt;k&nbsp;==&nbsp;CONS)</tt><br>
+<tt>#define&nbsp;<a name="isrational">isrational</a>(p)&nbsp;((p)-&gt;k&nbsp;==&nbsp;NUM)</tt><br>
+<tt>#define&nbsp;<a name="isdouble">isdouble</a>(p)&nbsp;((p)-&gt;k&nbsp;==&nbsp;DOUBLE)</tt><br>
+<tt>#define&nbsp;<a name="isnum">isnum</a>(p)&nbsp;(<a href="defs.h.html#isrational">isrational</a>(p)&nbsp;||&nbsp;<a href="defs.h.html#isdouble">isdouble</a>(p))</tt><br>
+<tt>#define&nbsp;<a name="isstr">isstr</a>(p)&nbsp;((p)-&gt;k&nbsp;==&nbsp;STR)</tt><br>
+<tt>#define&nbsp;<a name="istensor">istensor</a>(p)&nbsp;((p)-&gt;k&nbsp;==&nbsp;TENSOR)</tt><br>
+<tt>#define&nbsp;<a name="issymbol">issymbol</a>(p)&nbsp;((p)-&gt;k&nbsp;==&nbsp;SYM)</tt><br>
+<tt>#define&nbsp;<a name="iskeyword">iskeyword</a>(p)&nbsp;(<a href="defs.h.html#issymbol">issymbol</a>(p)&nbsp;&amp;&amp;&nbsp;<a href="symbol.c.html#symnum">symnum</a>(p)&nbsp;&lt;&nbsp;NIL)</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="car">car</a>(p)&nbsp;(<a href="defs.h.html#iscons">iscons</a>(p)&nbsp;?&nbsp;(p)-&gt;u.<a href="cons.c.html#cons">cons</a>.<a href="defs.h.html#car">car</a>&nbsp;:&nbsp;<a href="defs.h.html#symbol">symbol</a>(NIL))</tt><br>
+<tt>#define&nbsp;<a name="cdr">cdr</a>(p)&nbsp;(<a href="defs.h.html#iscons">iscons</a>(p)&nbsp;?&nbsp;(p)-&gt;u.<a href="cons.c.html#cons">cons</a>.<a href="defs.h.html#cdr">cdr</a>&nbsp;:&nbsp;<a href="defs.h.html#symbol">symbol</a>(NIL))</tt><br>
+<tt>#define&nbsp;<a name="caar">caar</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#car">car</a>(p))</tt><br>
+<tt>#define&nbsp;<a name="cadr">cadr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(p))</tt><br>
+<tt>#define&nbsp;<a name="cdar">cdar</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(p))</tt><br>
+<tt>#define&nbsp;<a name="cddr">cddr</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p))</tt><br>
+<tt>#define&nbsp;<a name="caadr">caadr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(p)))</tt><br>
+<tt>#define&nbsp;<a name="caddr">caddr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p)))</tt><br>
+<tt>#define&nbsp;<a name="cadar">cadar</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(p)))</tt><br>
+<tt>#define&nbsp;<a name="cdadr">cdadr</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(p)))</tt><br>
+<tt>#define&nbsp;<a name="cddar">cddar</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(p)))</tt><br>
+<tt>#define&nbsp;<a name="cdddr">cdddr</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p)))</tt><br>
+<tt>#define&nbsp;<a name="caaddr">caaddr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p))))</tt><br>
+<tt>#define&nbsp;<a name="cadadr">cadadr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(p))))</tt><br>
+<tt>#define&nbsp;<a name="caddar">caddar</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(p))))</tt><br>
+<tt>#define&nbsp;<a name="cdaddr">cdaddr</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p))))</tt><br>
+<tt>#define&nbsp;<a name="cadddr">cadddr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p))))</tt><br>
+<tt>#define&nbsp;<a name="cddddr">cddddr</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p))))</tt><br>
+<tt>#define&nbsp;<a name="caddddr">caddddr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p)))))</tt><br>
+<tt>#define&nbsp;<a name="cadaddr">cadaddr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p)))))</tt><br>
+<tt>#define&nbsp;<a name="cddaddr">cddaddr</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p)))))</tt><br>
+<tt>#define&nbsp;<a name="caddadr">caddadr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(p)))))</tt><br>
+<tt>#define&nbsp;<a name="cdddaddr">cdddaddr</a>(p)&nbsp;<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p))))))</tt><br>
+<tt>#define&nbsp;<a name="caddaddr">caddaddr</a>(p)&nbsp;<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#car">car</a>(<a href="defs.h.html#cdr">cdr</a>(<a href="defs.h.html#cdr">cdr</a>(p))))))</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="isadd">isadd</a>(p)&nbsp;(<a href="defs.h.html#car">car</a>(p)&nbsp;==&nbsp;<a href="defs.h.html#symbol">symbol</a>(ADD))</tt><br>
+<tt>#define&nbsp;<a name="ispower">ispower</a>(p)&nbsp;(<a href="defs.h.html#car">car</a>(p)&nbsp;==&nbsp;<a href="defs.h.html#symbol">symbol</a>(POWER))</tt><br>
+<tt>#define&nbsp;<a name="isfactorial">isfactorial</a>(p)&nbsp;(<a href="defs.h.html#car">car</a>(p)&nbsp;==&nbsp;<a href="defs.h.html#symbol">symbol</a>(FACTORIAL))</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="MSIGN">MSIGN</a>(p)&nbsp;(((int&nbsp;*)&nbsp;(p))[-2])</tt><br>
+<tt>#define&nbsp;<a name="MLENGTH">MLENGTH</a>(p)&nbsp;(((int&nbsp;*)&nbsp;(p))[-1])</tt><br>
+<tt></tt><br>
+<tt>#define&nbsp;<a name="MZERO">MZERO</a>(p)&nbsp;(<a href="defs.h.html#MLENGTH">MLENGTH</a>(p)&nbsp;==&nbsp;1&nbsp;&amp;&amp;&nbsp;(p)[0]&nbsp;==&nbsp;0)</tt><br>
+<tt>#define&nbsp;<a name="MEQUAL">MEQUAL</a>(p,&nbsp;n)&nbsp;(<a href="defs.h.html#MLENGTH">MLENGTH</a>(p)&nbsp;==&nbsp;1&nbsp;&amp;&amp;&nbsp;(long&nbsp;long)&nbsp;<a href="defs.h.html#MSIGN">MSIGN</a>(p)&nbsp;*&nbsp;(p)[0]&nbsp;==&nbsp;(n))</tt><br>
+<tt></tt><br>
+<tt>extern&nbsp;int&nbsp;tos;</tt><br>
+<tt>extern&nbsp;int&nbsp;expanding;</tt><br>
+<tt>extern&nbsp;int&nbsp;fmt_x;</tt><br>
+<tt>extern&nbsp;int&nbsp;fmt_index;</tt><br>
+<tt>extern&nbsp;int&nbsp;fmt_level;</tt><br>
+<tt>extern&nbsp;int&nbsp;verbosing;</tt><br>
+<tt>extern&nbsp;int&nbsp;primetab[<a href="defs.h.html#MAXPRIMETAB">MAXPRIMETAB</a>];</tt><br>
+<tt>extern&nbsp;int&nbsp;esc_flag;</tt><br>
+<tt>extern&nbsp;int&nbsp;draw_flag;</tt><br>
+<tt>extern&nbsp;int&nbsp;mtotal;</tt><br>
+<tt>extern&nbsp;int&nbsp;trigmode;</tt><br>
+<tt>extern&nbsp;char&nbsp;logbuf[];</tt><br>
+<tt>extern&nbsp;char&nbsp;program_buf[];</tt><br>
+<tt>extern&nbsp;U&nbsp;symtab[];</tt><br>
+<tt>extern&nbsp;U&nbsp;*binding[];</tt><br>
+<tt>extern&nbsp;U&nbsp;*arglist[];</tt><br>
+<tt>extern&nbsp;U&nbsp;*stack[];</tt><br>
+<tt>extern&nbsp;U&nbsp;**frame;</tt><br>
+<tt>extern&nbsp;U&nbsp;*p0,&nbsp;*p1,&nbsp;*p2,&nbsp;*p3,&nbsp;*p4,&nbsp;*p5,&nbsp;*p6,&nbsp;*p7,&nbsp;*p8,&nbsp;*p9;</tt><br>
+<tt>extern&nbsp;U&nbsp;*zero,&nbsp;*one,&nbsp;*imaginaryunit;</tt><br>
+<tt>extern&nbsp;U&nbsp;symtab[];</tt><br>
+<tt>extern&nbsp;char&nbsp;out_buf[];</tt><br>
+<tt>extern&nbsp;int&nbsp;out_count;</tt><br>
+<tt>extern&nbsp;int&nbsp;test_flag;</tt><br>
+<tt>extern&nbsp;jmp_buf&nbsp;draw_stop_return;</tt><br>
+<tt>extern&nbsp;int&nbsp;endian;</tt><br>
+<tt>#define&nbsp;<a name="little_endian">little_endian</a>()&nbsp;(*((unsigned&nbsp;char&nbsp;*)&nbsp;&amp;endian))</tt><br>
+<tt></tt><br>
+<tt>#include&nbsp;"prototypes.h"</tt><br>
+</body></html>

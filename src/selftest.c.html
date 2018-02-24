@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>selftest.c</title>
+</head>
+<body>
+<tt><b><i>//&nbsp;self&nbsp;test&nbsp;functions</i></b></tt><br>
+<tt></tt><br>
+<tt>#include&nbsp;"defs.h"</tt><br>
+<tt>#include&nbsp;"selftest.h"</tt><br>
+<tt></tt><br>
+<tt>static&nbsp;jmp_buf&nbsp;jbuf;</tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="selftest">selftest</a>(void)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;for&nbsp;handling&nbsp;"errout"</i></b></tt><br>
+<tt></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(setjmp(jbuf))</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;</tt><br>
+<tt></tt><br>
+</body></html>

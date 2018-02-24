@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>cons.c</title>
+</head>
+<body>
+<tt><b><i>//&nbsp;Cons&nbsp;two&nbsp;things&nbsp;on&nbsp;the&nbsp;stack.</i></b></tt><br>
+<tt></tt><br>
+<tt>#include&nbsp;"defs.h"</tt><br>
+<tt></tt><br>
+<tt>void</tt><br>
+<tt><a name="cons">cons</a>(void)</tt><br>
+<tt>{</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><i>//&nbsp;auto&nbsp;var&nbsp;ok,&nbsp;no&nbsp;opportunity&nbsp;for&nbsp;garbage&nbsp;collection&nbsp;after&nbsp;p&nbsp;=&nbsp;alloc()</i></b></tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;*p;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;<a href="alloc.c.html#alloc">alloc</a>();</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;k&nbsp;=&nbsp;CONS;</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;u.<a href="cons.c.html#cons">cons</a>.<a href="defs.h.html#cdr">cdr</a>&nbsp;=&nbsp;<a href="stack.c.html#pop">pop</a>();</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p-&gt;u.<a href="cons.c.html#cons">cons</a>.<a href="defs.h.html#car">car</a>&nbsp;=&nbsp;<a href="stack.c.html#pop">pop</a>();</tt><br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="stack.c.html#push">push</a>(p);</tt><br>
+<tt>}</tt><br>
+</body></html>
