@@ -42,6 +42,7 @@ struct token_info { // stores information about a token
 	denotation routine;
 };
 
+// lbp and nbp are not used for nuds!
 # define MAX_NUD 8
 struct token_info nud_table[MAX_NUD] = { // stores the nuds
 	// token   , lbp   , nbp       , nud
@@ -448,28 +449,10 @@ has_led(int token) {
 }
 
 int
-get_nud_lbp(int token) {
-	int i = find_nud(token);	
-	if (i < MAX_NUD)
-		return nud_table[i].lbp;
-	else
-		return MIN_BP;
-}
-
-int
 get_led_lbp(int token) {
 	int i = find_led(token);	
 	if (i < MAX_LED)
 		return led_table[i].lbp;
-	else
-		return MIN_BP;
-}
-
-int
-get_nud_nbp(int token) {
-	int i = find_nud(token);	
-	if (i < MAX_NUD)
-		return nud_table[i].nbp;
 	else
 		return MIN_BP;
 }
@@ -507,20 +490,22 @@ pratt(int rbp)
 	int nbp, lbp, newline_at_top_level, token_has_nud, token_has_led;
 	denotation nud, led;
 	
-	nbp = get_nud_nbp(token);
+	nbp = MAX_BP;
 	nud = get_nud(token);
 	get_next_token();
 	nud();
-	token_has_nud = has_nud(token);
-	token_has_led = has_led(token);
-	if (token_has_led) {
-		lbp = get_led_lbp(token);
-	} else if (token_has_nud) {
-		lbp = get_nud_lbp(token);
-	} else {
-		lbp = MIN_BP;
-	}
-	while (rbp < lbp && lbp < nbp) {
+	while (true) {
+		token_has_nud = has_nud(token);
+		token_has_led = has_led(token);
+		if (token_has_led) {
+			lbp = get_led_lbp(token);
+		} else if (token_has_nud) {
+			lbp = MUL_BP; // implicit multiplication
+		} else {
+			lbp = MIN_BP;
+		}
+		if (!(rbp < lbp && lbp < nbp))
+			break;
 		newline_at_top_level = (newline_flag == 1); // Eigenmath lacks && (paren_depth == 0) && (brack_depth == 0);
 		if ((!newline_at_top_level || !token_has_nud) && token_has_led) { // Mathematica lacks || !token_has_nud
 			nbp = get_led_nbp(token);
@@ -528,20 +513,11 @@ pratt(int rbp)
 			get_next_token();
 			led();
 		} else if (!newline_at_top_level && token_has_nud && !token_has_led) {
-			nbp = get_nud_nbp(token);
+			nbp = MAX_BP;
 			led = &led_mul; // implicit multiplication
 			led();
 		} else
 			break;
-		token_has_nud = has_nud(token);
-		token_has_led = has_led(token);
-		if (token_has_led) {
-			lbp = get_led_lbp(token);
-		} else if (token_has_nud) {
-			lbp = get_nud_lbp(token);
-		} else {
-			lbp = MIN_BP;
-		}
 	}
 }
 
