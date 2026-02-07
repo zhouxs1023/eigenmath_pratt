@@ -262,17 +262,45 @@ led_rel(void)
 void
 led_add(void)
 {
-	// rbp 30
-	// left is on stack
-	push_symbol(ADD);
-	swap();
+	int h;
+	U *p1;
+
+	// pop left
+	p1 = pop();
+
+	// record stack base (after popping left)
+	h = tos;
+
+	// push left back: now operands will be between tos==h and new tos
+	push(p1);
+
+	// process the operator that invoked this led (ptoken)
 	if (ptoken == '+') {
 		pratt(30);
 	} else if (ptoken == '-') {
 		pratt(30);
 		negate();
 	}
-	list(3);
+
+	// collect any following + or - operands
+	while (token == '+' || token == '-') {
+		if (token == '+') {
+			get_next_token(); // consume '+'
+			pratt(30);
+		} else { // token == '-'
+			get_next_token(); // consume '-'
+			pratt(30);
+			negate();
+		}
+	}
+
+	if (tos - h > 1) {
+		// make list of operands, then construct (ADD <list>)
+		list(tos - h);
+		push_symbol(ADD);
+		swap();
+		cons();
+	}
 }
 
 void
