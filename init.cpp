@@ -87,6 +87,7 @@ init(void)
 	std_symbol("expand", EXPAND);
 	std_symbol("expcos", EXPCOS);
 	std_symbol("expsin", EXPSIN);
+	std_symbol("exit", EXIT);
 	std_symbol("factor", FACTOR);
 	std_symbol("factorial", FACTORIAL);
 	std_symbol("factorpoly", FACTORPOLY);

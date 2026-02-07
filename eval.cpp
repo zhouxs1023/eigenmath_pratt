@@ -120,6 +120,7 @@ eval_cons(void)
 	case EXPAND:		eval_expand();		break;
 	case EXPCOS:		eval_expcos();		break;
 	case EXPSIN:		eval_expsin();		break;
+	case EXIT:		eval_exit();		break;
 	case FACTOR:		eval_factor();		break;
 	case FACTORIAL:		eval_factorial();	break;
 	case FACTORPOLY:	eval_factorpoly();	break;

@@ -85,6 +85,7 @@ eval.o \
 expand.o \
 expcos.o \
 expsin.o \
+exit.o \
 factor.o \
 factorial.o \
 factorpoly.o \

@@ -394,6 +394,9 @@ void eval_expsin(void);
 void expsin(void);
 void test_expsin(void);
 
+// exit.cpp
+void eval_exit(void);
+
 // factor.cpp
 void eval_factor(void);
 void factor_again(void);
