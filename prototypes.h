@@ -867,6 +867,11 @@ void sgn(void);
 void yysgn(void);
 void test_sgn(void);
 
+// heaviside.cpp
+void eval_heaviside(void);
+void heaviside(void);
+void test_heaviside(void);
+
 // simfac.cpp
 void eval_simfac(void);
 void simfac(void);

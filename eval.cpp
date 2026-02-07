@@ -169,6 +169,7 @@ eval_cons(void)
 	case ROOTS:		eval_roots();		break;
 	case SETQ:		eval_setq();		break;
 	case SGN:		eval_sgn();		break;
+	case HEAVISIDE:		eval_heaviside();	break;
 	case SIMPLIFY:		eval_simplify();	break;
 	case SIN:		eval_sin();		break;
 	case SINH:		eval_sinh();		break;

@@ -30,7 +30,7 @@
 
 # CXX and CXXFLAGS are used by make's implicit rule for compiling C++ files.
 # divby1billion() in mstr.c doesn't work with -O2
-CXXFLAGS = -Wall -Wuninitialized -O -DLINUX -g
+CXXFLAGS = -Wall -Wuninitialized -O -DWINDOWS -g
 
 objects = \
 abs.o \
@@ -97,6 +97,7 @@ for.o \
 gamma.o \
 gcd.o \
 guess.o \
+heaviside.o \
 hermite.o \
 hilbert.o \
 imag.o \

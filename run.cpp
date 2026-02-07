@@ -3,6 +3,8 @@
 
 jmp_buf stop_return, draw_stop_return;
 
+#define LINUX
+
 void
 stop(const char *s)
 {

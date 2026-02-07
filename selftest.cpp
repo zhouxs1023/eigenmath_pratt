@@ -70,6 +70,7 @@ selftest(void)
 	test_real();
 	test_rect();
 	test_sgn();
+	test_heaviside();
 	test_taylor();
 	test_transpose();
 	test_zero();
