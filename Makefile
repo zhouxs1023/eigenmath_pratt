@@ -134,6 +134,7 @@ mroot.o \
 mscan.o \
 mstr.o \
 multiply.o \
+newton.o \
 nroots.o \
 numerator.o \
 outer.o \

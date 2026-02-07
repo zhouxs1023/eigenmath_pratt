@@ -140,6 +140,7 @@ enum {
 	MAG,
 	MOD,
 	MULTIPLY,
+	NEWTON,
 	NOT,
 	NROOTS,
 	NUMBER,

@@ -701,6 +701,10 @@ void negate_expand(void);
 void negate_noexpand(void);
 void test_multiply(void);
 
+// newton.cpp
+void eval_newton(void);
+void test_newton(void);
+
 // nroots.cpp
 void eval_nroots(void);
 void monic(int n);

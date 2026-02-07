@@ -149,6 +149,7 @@ eval_cons(void)
 	case MAG:		eval_mag();		break;
 	case MOD:		eval_mod();		break;
 	case MULTIPLY:		eval_multiply();	break;
+	case NEWTON:		eval_newton();		break;
 	case NOT:		eval_not();		break;
 	case NROOTS:		eval_nroots();		break;
 	case NUMBER:		eval_number();		break;
