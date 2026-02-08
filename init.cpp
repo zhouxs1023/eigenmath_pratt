@@ -157,6 +157,7 @@ init(void)
 	std_symbol("testlt", TESTLT);
 	std_symbol("transpose", TRANSPOSE);
 	std_symbol("unit", UNIT);
+	std_symbol("while", WHILE);
 	std_symbol("zero", ZERO);
 
 	std_symbol("nil", NIL);

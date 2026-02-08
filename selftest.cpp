@@ -100,6 +100,7 @@ selftest(void)
 	test_simplify();
 	test_roots();
 	test_eigen();
+	test_while();
 
 #endif
 

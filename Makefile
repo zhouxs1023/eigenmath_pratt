@@ -180,6 +180,7 @@ transpose.o \
 userfunc.o \
 variables.o \
 vectorize.o \
+while.o \
 zero.o
 
 math : $(objects)

@@ -180,6 +180,7 @@ enum {
 	TESTLT,
 	TRANSPOSE,
 	UNIT,
+	WHILE,
 	ZERO,
 
 	NIL,	// nil goes here, after standard functions

@@ -994,6 +994,10 @@ void variables(void);
 // vectorize.cpp
 void vectorize(int n);
 
+// while.cpp
+void eval_while(void);
+void test_while(void);
+
 // window.cpp
 void printchar_nowrap(int c);
 void printchar(int c);

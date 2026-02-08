@@ -190,6 +190,7 @@ eval_cons(void)
 	case TESTLT:		eval_testlt();		break;
 	case TRANSPOSE:		eval_transpose();	break;
 	case UNIT:		eval_unit();		break;
+	case WHILE:		eval_while();		break;
 	case ZERO:		eval_zero();		break;
 	default:		eval_user_function();	break;
 	}	
