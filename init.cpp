@@ -149,6 +149,8 @@ init(void)
 	std_symbol("tan", TAN);
 	std_symbol("tanh", TANH);
 	std_symbol("taylor", TAYLOR);
+	std_symbol("tchebychevT", TCHEBYCHEVT);
+	std_symbol("tchebychevU", TCHEBYCHEVU);
 	std_symbol("test", TEST);
 	std_symbol("testeq", TESTEQ);
 	std_symbol("testge", TESTGE);

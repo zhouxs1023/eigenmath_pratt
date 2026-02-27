@@ -98,6 +98,8 @@ selftest(void)
 	test_isprime();
 	test_integral();
 	test_simplify();
+	test_tchebychevT();
+	test_tchebychevU();
 	test_roots();
 	test_eigen();
 	test_while();

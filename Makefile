@@ -173,6 +173,8 @@ symbol.o \
 tan.o \
 tanh.o \
 taylor.o \
+tchebychevT.o \
+tchebychevU.o \
 tensor.o \
 test.o \
 transform.o \

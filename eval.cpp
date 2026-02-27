@@ -182,6 +182,8 @@ eval_cons(void)
 	case TAN:		eval_tan();		break;
 	case TANH:		eval_tanh();		break;
 	case TAYLOR:		eval_taylor();		break;
+	case TCHEBYCHEVT:	eval_tchebychevT();	break;
+	case TCHEBYCHEVU:	eval_tchebychevU();	break;
 	case TEST:		eval_test();		break;
 	case TESTEQ:		eval_testeq();		break;
 	case TESTGE:		eval_testge();		break;
